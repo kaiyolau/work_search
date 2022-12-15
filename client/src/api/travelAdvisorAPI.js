@@ -16,28 +16,49 @@ export const getPlacesData = async (type, sw, ne) => {
       },
     });
     return data
-    // const geoData = await getLatAndLonFromCity(cityName);
-    // lat = geoData.lat;
-    // lon = geoData.lon;
-    // weatherData = await getWeatherData(lat, lon);
-    // return weatherData;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const getWeatherData = async (lat, lng) => {
-  try {
-    if (lat && lng) {
-      const { data } = await axios.get(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lng}&exclude=alert,daily&appid=892dc0db073cb03b5b98f0e737fddab7`, {
-        params: { lat, lon: lng }
-      });
-      return data;
-    }
-  } catch (error) {
-    console.log('error is', error);
+const axios = require("axios");
+
+const options = {
+  method: 'GET',
+  url: 'https://indeed-indeed.p.rapidapi.com/apisearch',
+  params: {
+    publisher: 'Kyle',
+    v: '2',
+    format: 'json',
+    callback: 'Callback',
+    q: 'java',
+    l: 'austin, tx',
+    sort: 'relevance',
+    radius: '25',
+    st: 'jobsite',
+    jt: 'fulltime',
+    start: '1',
+    limit: '10',
+    fromage: '30',
+    highlight: '0',
+    filter: '1',
+    latlong: '1',
+    co: 'ca',
+    chnl: 'channel_1',
+    userip: '192.168.0.63.',
+    useragent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36'
+  },
+  headers: {
+    'X-RapidAPI-Key': 'c6ed571729msh5b74fe34598d884p17ee0djsn1d7d631547b6',
+    'X-RapidAPI-Host': 'indeed-indeed.p.rapidapi.com'
   }
 };
+
+axios.request(options).then(function (response) {
+	console.log(response.data);
+}).catch(function (error) {
+	console.error(error);
+});
 
 
 

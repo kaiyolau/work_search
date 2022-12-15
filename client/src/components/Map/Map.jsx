@@ -58,13 +58,13 @@ const Map = ({ coords, places, setCoords, setBounds, setChildClicked, weatherDat
         ))}
 
 
-        {weatherData?.current?.weather[0].icon? (
+        {/* {weatherData?.current?.weather[0].icon? (
           <div id='display1'>
             <img  src={`http://openweathermap.org/img/wn/${icon}@2x.png`} />
           </div>
         ):(
           <div id='display2'>there's no weather image here</div>
-        )}
+        )} */}
 
 
       </GoogleMapReact>

@@ -16,7 +16,7 @@ const List = ({ places, type, setType, rating, setRating, childClicked, isLoadin
 
   return (
     <div className={classes.container}>
-      <Typography variant="h5">You can display different cities, weather, restaurants, hotel and restaurants right here!</Typography>
+      <Typography variant="h5">See all jobs that suitable for you</Typography>
       {isLoading ? (
         <div className={classes.loading}>
           <CircularProgress size="5rem" />
