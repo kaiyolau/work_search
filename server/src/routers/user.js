@@ -15,7 +15,6 @@ router.post('/users', async (req, res) => {
     try {
         await user.save()
         const token = await user.generateAuthToken()
-        // req.session.userId = user._id
         res.status(200).send({ user, token })
     } catch (e) {
         res.status(400).send(e)
@@ -26,7 +25,6 @@ router.post('/users/login', async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password)
         const token = await user.generateAuthToken()
-        // req.session.userId = user._id
         res.status(200).send({ user, token })
     } catch (e) {
         res.status(400).send('could not login from catch block in express')
@@ -39,7 +37,6 @@ router.post('/users/logout', auth, async (req, res) => {
             return token.token !== req.token
         })
         await req.user.save()
-        // req.session.userId = null;
 
         res.send()
     } catch (e) {
@@ -49,9 +46,9 @@ router.post('/users/logout', auth, async (req, res) => {
 
 router.post('/users/logoutAll', auth, async (req, res) => {
     try {
+        console.log("logoutAll route auth passed")
         req.user.tokens = []
         await req.user.save()
-        // req.session.userId = null;
         res.send()
     } catch (e) {
         res.status(500).send(e)

@@ -79,9 +79,9 @@ router.get('/posts/:postingId/apps', async (req, res) => {
 
 
 
-router.patch('/posts/:id', auth, async (req, res) => {
+router.patch('/posts/:id/update', auth, async (req, res) => {
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['jobtitle', 'company', 'location', 'numberOfRecruiter','description','companyWebsite','expired','expiredDate','picture']
+    const allowedUpdates = ['jobtitle', 'company', 'location', 'numberOfRecruiter','skill', 'description','companyWebsite','expired','expiredDate','picture','id']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     if (!isValidOperation) {

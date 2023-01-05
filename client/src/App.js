@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useDispatch} from "react-redux";
 
@@ -15,7 +16,9 @@ import SignInUser from './components/Users/SignInUser';
 import SignUpUser from './components/Users/SignUpUser';
 import ReadProfile from "./components/Users/ReadProfile";
 import AddPost from "./components/Posts/AddPost";
+import UpdatePost from "./components/Posts/UpdatePost";
 import Post from "./components/Posts/Post";
+import HomePage from "./components/HomePage";
 import AuthRoute from "./components/AuthRoute";
 
 
@@ -38,8 +41,9 @@ const App = () => {
   const [ user, setUser ] = useState(null)
   const dispatch = useDispatch();
 
-  const getCurrentUser = (userData) => {
-    setUser(userData)
+  const getCurrentUser = () => {
+    const token = localStorage.getItem('token');
+    setUser(token)
   }
 
   const onSignOut = () => {
@@ -129,11 +133,12 @@ const App = () => {
       <Switch>
         <Route exact path='/sign_in' render={(routeProps) => <SignInUser {...routeProps} onSignIn={getCurrentUser} />}></Route>
         <Route exact path='/sign_up' render={(routeProps) => <SignUpUser {...routeProps} onSignIn={getCurrentUser} />}></Route>
-        <AuthRoute isAuthenticated={!!user} exact path='/posts/Add' component={AddPost} />
+        <AuthRoute isAuthenticated={!!user}  exact path='/posts/Add' component={AddPost} />
+        <Route exact path="/posts/:id" render={(routeProps) => <Post {...routeProps} />}/>
+        <Route exact path="/posts/:id/update" render={(routeProps) => <UpdatePost {...routeProps} />}/>
         <AuthRoute exact path='/users/me' component={ReadProfile} isAuthenticated={!!user} onSignOut={onSignOut}/>
-        <Route exact path="/posts/:id"  render={(routeProps) => <Post {...routeProps} />}/>
           {/* <Route component={NotFoundPage}></Route> */}
-          {/* <Route exact path={["/", "/posts"]} component={PostsList}/> */}
+        <Route exact path={["/", "/posts"]} component={HomePage}/>
       </Switch>
 
     </Router>

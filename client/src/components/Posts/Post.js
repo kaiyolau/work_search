@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updatePost, deletePost } from "../../actions/posts";
 import PostDataService from "../../services/PostService";
+import {
+    retrieveUser,
+    deleteUser
+} from "../../actions/users";
 import PostDetail from "./PostDetail";
 
 export default function Post(props) {
 
     const [currentPost, setCurrentPost] = useState({});
     const [message, setMessage] = useState("");
+    const [ user, setUser ] = useState({})
 
     const dispatch = useDispatch();
 
@@ -24,26 +29,15 @@ export default function Post(props) {
 
 
     useEffect(() => {
+        dispatch(retrieveUser())
+        .then(response => {
+            // console.log('response',response);
+            setUser(response)
+        })
+        .catch(e => { console.log(e) });
         getPost(props.match.params.id);
     }, [props.match.params.id]);
 
-    // const handleInputChange = event => {
-    //     const { name, value } = event.target;
-    //     setCurrentPost({ ...currentPost, [name]: value });
-    // };
-
-
-    const updateContent = () => {
-        dispatch(updatePost(currentPost.id, currentPost))
-        .then(response => {
-            console.log(response);
-
-            setMessage("The post was updated successfully!");
-        })
-        .catch(e => {
-            console.log(e);
-        });
-    };
 
     const removePost = (id) => {
         dispatch(deletePost(currentPost.id))
@@ -56,7 +50,7 @@ export default function Post(props) {
     };
 
         console.log(currentPost)
-    const {jobtitle, company, location, numberOfRecruiter, description, companyWebsite } = currentPost
+    const {jobtitle, company, location, numberOfRecruiter, skill, description, companyWebsite, expiredDate, author, id } = currentPost
     return (
         <div>
             {currentPost ?
@@ -65,12 +59,14 @@ export default function Post(props) {
                     company={company}
                     location={location}
                     numberOfRecruiter={numberOfRecruiter}
+                    skill={skill}
                     description={description}
                     companyWebsite={companyWebsite}
                     removePost={() => removePost()}
-                    updateContent={updateContent}
+                    author={author}
+                    expiredDate={expiredDate}
                     message={message}
-
+                    id={id}
                 />
                     :
                 <p>Data is loading...</p>

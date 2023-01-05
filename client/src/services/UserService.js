@@ -25,8 +25,7 @@ const logout = () => {
 
 const logoutAll = () => {
   const token = localStorage.getItem('token');
-  console.log('showing token from request:',token)
-  return http.post(`/users/logoutAll`, {
+  return http.post(`/users/logoutAll`, {}, {
     headers: {
       'Authorization': `Bearer ${token}`
     }

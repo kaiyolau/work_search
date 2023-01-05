@@ -20,14 +20,14 @@ function SignInUser(props){
                 if (!response) {
                     setErrors([...errors, {message: "Wrong email or password"}])
                 } else if (response.user.id) {
-                    onSignIn(response.user)
+                    onSignIn()
                     props.history.push('/')
                 }
             })
     }
 
     return(
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} className='submit-form'>
             {errors.length > 0 ? (
                 <Form.Group controlId="formBasicEmail">
                     <Form.Text className="text-muted">
@@ -55,6 +55,7 @@ function SignInUser(props){
                 <Form.Control  type="password" name="password" onChange={event => {
                         setPassword(event.currentTarget.value)}} placeholder="Password" />
             </Form.Group>
+            <br/>
             <Button variant="primary" type="submit">
             Sign In
             </Button>

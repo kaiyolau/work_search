@@ -23,6 +23,10 @@ const postSchema = new mongoose.Schema({
         type: Number,
         min: 1
     },
+    skill: {
+        type: String,
+        trim: true
+    },
     description: {
         type: String,
         required: true,
@@ -50,11 +54,11 @@ const postSchema = new mongoose.Schema({
     picture: {
         type: Buffer
     },
-    author: [{
+    author: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User'
-    }]
+    }
 }, {
     timestamps: true
 })
