@@ -68,9 +68,6 @@ const List = ({ places, type, setType, rating, setRating, childClicked, isLoadin
             </Grid>
           ) }
 
-
-
-
         </>
       )}
     </div>

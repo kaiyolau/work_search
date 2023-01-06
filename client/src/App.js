@@ -1,10 +1,26 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import './App.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useDispatch} from "react-redux";
+
+import UserDataService from "./services/UserService";
 import { CssBaseline, Grid } from '@material-ui/core';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 import { getPlacesData, getWeatherData, getCitiesData } from './api/travelAdvisorAPI';
 import Header from './components/Header/Header';
-import List from './components/List/List';
-import Map from './components/Map/Map';
+// import List from './components/List/List';
+// import Map from './components/Map/Map';
+import SignInUser from './components/Users/SignInUser';
+import SignUpUser from './components/Users/SignUpUser';
+import ReadProfile from "./components/Users/ReadProfile";
+import AddPost from "./components/Posts/AddPost";
+import UpdatePost from "./components/Posts/UpdatePost";
+import Post from "./components/Posts/Post";
+import HomePage from "./components/HomePage";
+import AuthRoute from "./components/AuthRoute";
+
 
 const App = () => {
   const [type, setType] = useState('restaurants');
@@ -22,41 +38,57 @@ const App = () => {
   const [childClicked, setChildClicked] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  const [ user, setUser ] = useState(null)
+  const dispatch = useDispatch();
+
+  const getCurrentUser = () => {
+    const token = localStorage.getItem('token');
+    setUser(token)
+  }
+
+  const onSignOut = () => {
+
+    localStorage.removeItem('token')
+    setUser( null )
+  };
+
+
   useEffect(() => {
+    getCurrentUser()
     navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
       setCoords({ lat: latitude, lng: longitude });
     });
   }, []);
 
-  useEffect(() => {
-    const filtered = places.filter((place) => Number(place.rating) > rating);
+  // useEffect(() => {
+  //   const filtered = places.filter((place) => Number(place.rating) > rating);
 
-    setFilteredPlaces(filtered);
-  }, [rating]);
+  //   setFilteredPlaces(filtered);
+  // }, [rating]);
 
-  useEffect(() => {
-    if (bounds) {
-      setIsLoading(true);
+  // useEffect(() => {
+  //   if (bounds) {
+  //     setIsLoading(true);
 
-      // getWeatherData(coords.lat, coords.lng)
-      //   .then((data) => setWeatherData(data));
+  //     // getWeatherData(coords.lat, coords.lng)
+  //     //   .then((data) => setWeatherData(data));
 
-      getPlacesData(type, bounds.sw, bounds.ne)
-        .then((data) => {
-          setPlaces(data.filter((place) => place.name && place.num_reviews > 0));
-          setFilteredPlaces([]);
-          setRating('');
-          setIsLoading(false);
-        });
+  //     getPlacesData(type, bounds.sw, bounds.ne)
+  //       .then((data) => {
+  //         setPlaces(data.filter((place) => place.name && place.num_reviews > 0));
+  //         setFilteredPlaces([]);
+  //         setRating('');
+  //         setIsLoading(false);
+  //       });
 
-      getCitiesData()
-        .then((data) => {
-          setCities(data);
-          setIsLoading(false);
-          console.log('the cities data in APP.js is',cities)
-        });
-    }
-  }, [bounds, type]);
+  //     getCitiesData()
+  //       .then((data) => {
+  //         setCities(data);
+  //         setIsLoading(false);
+  //         console.log('the cities data in APP.js is',cities)
+  //       });
+  //   }
+  // }, [bounds, type]);
 
   const onLoad = (autoC) => setAutocomplete(autoC);
 
@@ -67,13 +99,12 @@ const App = () => {
     setCoords({ lat, lng });
   };
 
-
+  // console.log(user)
   return (
-    <>
-      <CssBaseline />
-      <Header onPlaceChanged={onPlaceChanged} onLoad={onLoad} />
-      <Grid container spacing={3} style={{ width: '100%' }}>
-        <Grid item xs={12} md={4}>
+    <Router>
+
+      {/* <Grid container spacing={3} style={{ width: '100%' }}>
+      <Grid item xs={12} md={4}>
           <List
             isLoading={isLoading}
             childClicked={childClicked}
@@ -96,8 +127,22 @@ const App = () => {
             weatherData={weatherData}
           />
         </Grid>
-      </Grid>
-    </>
+      </Grid> */}
+      <CssBaseline />
+      <Header onPlaceChanged={onPlaceChanged} onLoad={onLoad}  currentUser={user} onSignOut={onSignOut} />
+      <Switch>
+        <Route exact path='/sign_in' render={(routeProps) => <SignInUser {...routeProps} onSignIn={getCurrentUser} />}></Route>
+        <Route exact path='/sign_up' render={(routeProps) => <SignUpUser {...routeProps} onSignIn={getCurrentUser} />}></Route>
+        <AuthRoute isAuthenticated={!!user}  exact path='/posts/Add' component={AddPost} />
+        <Route exact path="/posts/:id" render={(routeProps) => <Post {...routeProps} />}/>
+        <Route exact path="/posts/:id/update" render={(routeProps) => <UpdatePost {...routeProps} />}/>
+        <AuthRoute exact path='/users/me' component={ReadProfile} isAuthenticated={!!user} onSignOut={onSignOut}/>
+          {/* <Route component={NotFoundPage}></Route> */}
+        <Route exact path={["/", "/posts"]} component={HomePage}/>
+      </Switch>
+
+    </Router>
+
   );
 };
 
