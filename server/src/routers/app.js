@@ -19,11 +19,13 @@ const upload = multer({
 })
 
 
-//, upload.single('resume')
+// , upload.single('resume')
 router.post('/posts/:postingId/apps', auth, async (req, res) => {
     const _id = req.params.postingId
+    // console.log('req.body', req.body)
+    // console.log('req.file.buffer', req.file.buffer)
     try {
-        // const buffer = await sharp(req.file.buffer).resize({ width: 500, height: 800 }).png().toBuffer()
+        // const buffer = await sharp(req.file.buffer).resize({ width: 800, height: 1000 }).png().toBuffer()
         const app = new App({
             ...req.body,
             recruiter: req.user._id,
@@ -37,7 +39,7 @@ router.post('/posts/:postingId/apps', auth, async (req, res) => {
         res.status(400).send(e)
     }
 }, (error, req, res, next) => {
-    res.status(400).send({ error: error.message })
+    res.status(500).send({ error: error.message })
 })
 
 

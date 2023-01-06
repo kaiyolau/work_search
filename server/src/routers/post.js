@@ -100,7 +100,6 @@ router.patch('/posts/:id/update', auth, async (req, res) => {
 
 router.delete('/posts/:id', auth, async (req, res) => {
     try {
-                        //                     make sure find the post.id and it's current user related with
         const post = await Post.findOneAndDelete({ _id: req.params.id, author: req.user._id })
         if (!post) {
             res.status(404).send()
