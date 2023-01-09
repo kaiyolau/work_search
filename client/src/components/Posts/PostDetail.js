@@ -20,8 +20,11 @@ function PostDetail(props) {
         numberOfRecruiter,
         skill,
         description,
+        wage,
         companyWebsite,
+        sponsorship,
         expiredDate,
+        picture,
         message,
         author,
         id
@@ -56,11 +59,22 @@ function PostDetail(props) {
                 </Typography>
                 <br/>
                 <Typography>
+                    <strong>Wage:</strong> {wage}
+                </Typography>
+                <br/>
+                <Typography>
                     <strong>Website:</strong> <a href={companyWebsite}>{companyWebsite}</a>
                 </Typography>
                 <br/>
                 <Typography>
+                    <strong>Sponsorship:</strong> {sponsorship}
+                </Typography>
+                <br/>
+                <Typography>
                     <strong>Expired date:</strong> {expiredDate}
+                </Typography>
+                <Typography>
+                    <strong>Picture:</strong> {picture}
                 </Typography>
                 <br/>
                 {userId === author ? (
@@ -75,7 +89,7 @@ function PostDetail(props) {
                     <div></div>
                 )}
                     <br/>
-                    <Button>Apply</Button>
+                    <Button component={Link} to={`/posts/${id}/apps`} >Apply</Button>
                 <Typography>
                     <strong>Message</strong> {message}
                 </Typography>

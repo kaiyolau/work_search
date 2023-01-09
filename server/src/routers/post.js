@@ -21,11 +21,14 @@ const upload = multer({
 
 router.post('/posts', auth, upload.single('picture'), async (req, res) => {
     try {
-        // const buffer = await sharp(req.file.buffer).resize({ width: 500, height: 800 }).png().toBuffer()
+        let buffer = null
+        if (req.file) {
+            buffer = await sharp(req.file.buffer).resize({ width: 500, height: 800 }).png().toBuffer()
+        }
         const post = new Post({
             ...req.body,
-            author: req.user._id
-            // picture: buffer
+            author: req.user._id,
+            picture: buffer
         })
         await post.save()
         res.status(201).send(post)
@@ -81,7 +84,7 @@ router.get('/posts/:postingId/apps', async (req, res) => {
 
 router.patch('/posts/:id/update', auth, async (req, res) => {
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['jobtitle', 'company', 'location', 'numberOfRecruiter','skill', 'description','companyWebsite','expired','expiredDate','picture','id']
+    const allowedUpdates = ['jobtitle', 'company', 'location', 'numberOfRecruiter','skill', 'description','companyWebsite','expired','expiredDate','picture','id','wage', 'sponsorship']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     if (!isValidOperation) {

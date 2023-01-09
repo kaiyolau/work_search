@@ -39,7 +39,7 @@ const Header = ({ onPlaceChanged, onLoad, currentUser, onSignOut }) => {
             <Button color="inherit" component={Link} to='/posts/Add' >Create a new post</Button>
             <Button color="inherit" component={Link} to='/users/me' >Profile</Button>
             <span>Welcome back!</span>
-            <Button color="inherit" component={Link} to={`/posts/63b35c592beaa53c952f8ea9/update`} >IdPost</Button>
+            <Button color="inherit" component={Link} to={`/posts/63ba0e3c4823a008d75d944e`} >IdPost</Button>
             <Button onClick={handleSignOut} color="inherit">Sign Out</Button>
           </>
         ) : (
@@ -49,7 +49,7 @@ const Header = ({ onPlaceChanged, onLoad, currentUser, onSignOut }) => {
           </>
         )}
         <Box display="flex">
-          <Typography variant="p" className={classes.title}>
+          <Typography variant="h6" className={classes.title}>
             Explore new places
           </Typography>
           <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>

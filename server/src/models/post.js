@@ -33,6 +33,11 @@ const postSchema = new mongoose.Schema({
         minLength: 20,
         trim: true
     },
+    wage: {
+        type: Number,
+        required: true,
+        trim: true
+    },
     companyWebsite: {
         type: String,
         validate(value) {
@@ -45,6 +50,15 @@ const postSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
         expires:2592000
+    },
+    picture: {
+        type: Buffer,
+        default: null
+    },
+    sponsorship: {
+        type: Boolean,
+        required: true,
+        default: false
     },
     // owner: {
     //     type: mongoose.Schema.Types.ObjectId,
@@ -75,11 +89,7 @@ postSchema.methods.toJSON = function () {
     const postObject = post.toObject()
     const { __v, _id, ...object } = postObject
     postObject.id = _id;
-
-
-
-    delete postObject.picture
-
+    // delete postObject.picture
     return postObject
 }
 
