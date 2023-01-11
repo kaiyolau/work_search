@@ -4,7 +4,8 @@ const create = data => {
   const token = localStorage.getItem('token');
     return http.post("/posts", data, {
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data'
       }
     });
   };
@@ -18,6 +19,7 @@ const getAll = () => {
 };
 
 const update = (id, data) => {
+  console.log('data from the port', data)
   const token = localStorage.getItem('token');
   return http.patch(`/posts/${id}/update`, data, {
     headers: {

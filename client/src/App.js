@@ -3,36 +3,34 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useDispatch} from "react-redux";
-
+import { retrievePosts } from "./actions/posts";
 import UserDataService from "./services/UserService";
 import { CssBaseline, Grid } from '@material-ui/core';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
-import { getPlacesData, getWeatherData, getCitiesData } from './api/travelAdvisorAPI';
+import { getPlacesData } from './api/travelAdvisorAPI';
 import Header from './components/Header/Header';
-// import List from './components/List/List';
-// import Map from './components/Map/Map';
+import List from './components/List/List';
+import Map from './components/Map/Map';
 import SignInUser from './components/Users/SignInUser';
 import SignUpUser from './components/Users/SignUpUser';
 import ReadProfile from "./components/Users/ReadProfile";
 import AddPost from "./components/Posts/AddPost";
 import UpdatePost from "./components/Posts/UpdatePost";
 import Post from "./components/Posts/Post";
-import HomePage from "./components/HomePage";
+import CreateApp from "./components/Apps/CreateApp";
+// import HomePage from "./components/HomePage";
 import AuthRoute from "./components/AuthRoute";
 
 
 const App = () => {
-  const [type, setType] = useState('restaurants');
-  const [rating, setRating] = useState('');
+  const [wage, setWage] = useState('');
 
   const [coords, setCoords] = useState({});
   const [bounds, setBounds] = useState(null);
 
-  const [weatherData, setWeatherData] = useState([]);
   const [filteredPlaces, setFilteredPlaces] = useState([]);
   const [places, setPlaces] = useState([]);
-  const [cities, setCities] = useState([]);
 
   const [autocomplete, setAutocomplete] = useState(null);
   const [childClicked, setChildClicked] = useState(null);
@@ -47,48 +45,62 @@ const App = () => {
   }
 
   const onSignOut = () => {
-
     localStorage.removeItem('token')
     setUser( null )
   };
 
 
   useEffect(() => {
-    getCurrentUser()
     navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
       setCoords({ lat: latitude, lng: longitude });
-    });
+    })
+    getCurrentUser()
+    // dispatch(retrievePosts())
+    // .then(response => {
+    //     // console.log(response)
+    //     setPlaces(response)
+    //   //     setFilteredPlaces([]);
+    //   //     setWage('');
+    //   //     setIsLoading(false);
+
+    // })
+    // .catch(e => { console.log(e) });
+    // navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
+    //   setCoords({ lat: latitude, lng: longitude });
+    // });
   }, []);
+  console.log('places:',places)
+  console.log('coords:',coords)
 
-  // useEffect(() => {
-  //   const filtered = places.filter((place) => Number(place.rating) > rating);
+  useEffect(() => {
+    const filtered = places.filter((place) => Number(place.wage) > wage);
+    setFilteredPlaces(filtered);
+  }, [wage]);
 
-  //   setFilteredPlaces(filtered);
-  // }, [rating]);
+  useEffect(() => {
+    if (bounds) {
+      setIsLoading(true);
 
-  // useEffect(() => {
-  //   if (bounds) {
-  //     setIsLoading(true);
+      dispatch(retrievePosts())
+      .then(response => {
+          console.log(response)
+          setPlaces(response)
+            setFilteredPlaces([]);
+            setWage('');
+            setIsLoading(false);
 
-  //     // getWeatherData(coords.lat, coords.lng)
-  //     //   .then((data) => setWeatherData(data));
-
-  //     getPlacesData(type, bounds.sw, bounds.ne)
-  //       .then((data) => {
-  //         setPlaces(data.filter((place) => place.name && place.num_reviews > 0));
-  //         setFilteredPlaces([]);
-  //         setRating('');
-  //         setIsLoading(false);
-  //       });
-
-  //     getCitiesData()
-  //       .then((data) => {
-  //         setCities(data);
-  //         setIsLoading(false);
-  //         console.log('the cities data in APP.js is',cities)
-  //       });
-  //   }
-  // }, [bounds, type]);
+      })
+    .catch(e => { console.log(e) });
+      // getPlacesData(bounds.sw, bounds.ne)
+      //   .then((data) => {
+      //     setPlaces(data.filter((place) => place.name && place.num_reviews > 0));
+      //     setFilteredPlaces([]);
+      //     setWage('');
+      //     setIsLoading(false);
+      //   });
+    }
+  }, [bounds]);
+  console.log('bounds', bounds)
 
   const onLoad = (autoC) => setAutocomplete(autoC);
 
@@ -99,22 +111,21 @@ const App = () => {
     setCoords({ lat, lng });
   };
 
-  // console.log(user)
+
   return (
     <Router>
-
+      <CssBaseline />
+      <Header onPlaceChanged={onPlaceChanged} onLoad={onLoad}  currentUser={user} onSignOut={onSignOut} />
       {/* <Grid container spacing={3} style={{ width: '100%' }}>
-      <Grid item xs={12} md={4}>
-          <List
-            isLoading={isLoading}
-            childClicked={childClicked}
-            places={filteredPlaces.length ? filteredPlaces : places}
-            cities={cities}
-            type={type}
-            setType={setType}
-            rating={rating}
-            setRating={setRating}
-          />
+        <Grid item xs={12} md={4}>
+            <List
+              isLoading={isLoading}
+              childClicked={childClicked}
+              // places={filteredPlaces.length ? filteredPlaces : places}
+              places={places}
+              wage={wage}
+              setWage={setWage}
+            />
         </Grid>
         <Grid item xs={12} md={8} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <Map
@@ -123,24 +134,44 @@ const App = () => {
             setCoords={setCoords}
             coords={coords}
             places={filteredPlaces.length ? filteredPlaces : places}
-            cities={cities}
-            weatherData={weatherData}
           />
         </Grid>
       </Grid> */}
-      <CssBaseline />
-      <Header onPlaceChanged={onPlaceChanged} onLoad={onLoad}  currentUser={user} onSignOut={onSignOut} />
+
+
       <Switch>
+        <Route exact path='/' render={(routeProps) =>
+          <Grid container spacing={3} style={{ width: '100%' }}>
+            <Grid item xs={12} md={4}>
+                <List
+                  isLoading={isLoading}
+                  childClicked={childClicked}
+                  // places={filteredPlaces.length ? filteredPlaces : places}
+                  places={places}
+                  wage={wage}
+                  setWage={setWage}
+                />
+            </Grid>
+            <Grid item xs={12} md={8} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <Map
+                setChildClicked={setChildClicked}
+                setBounds={setBounds}
+                setCoords={setCoords}
+                coords={coords}
+                places={filteredPlaces.length ? filteredPlaces : places}
+              />
+            </Grid>
+          </Grid>}
+        ></Route>
         <Route exact path='/sign_in' render={(routeProps) => <SignInUser {...routeProps} onSignIn={getCurrentUser} />}></Route>
         <Route exact path='/sign_up' render={(routeProps) => <SignUpUser {...routeProps} onSignIn={getCurrentUser} />}></Route>
         <AuthRoute isAuthenticated={!!user}  exact path='/posts/Add' component={AddPost} />
         <Route exact path="/posts/:id" render={(routeProps) => <Post {...routeProps} />}/>
         <Route exact path="/posts/:id/update" render={(routeProps) => <UpdatePost {...routeProps} />}/>
         <AuthRoute exact path='/users/me' component={ReadProfile} isAuthenticated={!!user} onSignOut={onSignOut}/>
-          {/* <Route component={NotFoundPage}></Route> */}
-        <Route exact path={["/", "/posts"]} component={HomePage}/>
+        <Route exact path="/posts/:postingId/apps" render={(routeProps) => <CreateApp {...routeProps} />}/>
+        {/* <Route exact path={["/", "/posts"]} component={HomePage}/> */}
       </Switch>
-
     </Router>
 
   );

@@ -49,8 +49,8 @@ export default function Post(props) {
         });
     };
 
-        console.log(currentPost)
-    const {jobtitle, company, location, numberOfRecruiter, skill, description, companyWebsite, expiredDate, author, id } = currentPost
+        // console.log(currentPost)
+    const {jobtitle, company, location, numberOfRecruiter, skill, description, wage, companyWebsite, sponsorship, expiredDate, picture, author, id } = currentPost
     return (
         <div>
             {currentPost ?
@@ -61,10 +61,13 @@ export default function Post(props) {
                     numberOfRecruiter={numberOfRecruiter}
                     skill={skill}
                     description={description}
+                    wage={wage}
                     companyWebsite={companyWebsite}
+                    sponsorship={sponsorship}
                     removePost={() => removePost()}
                     author={author}
                     expiredDate={expiredDate}
+                    picture={picture}
                     message={message}
                     id={id}
                 />

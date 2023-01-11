@@ -8,9 +8,9 @@ import {
 
   import PostDataService from "../services/PostService";
 
-  export const createPost = ( jobtitle, company, location, numberOfRecruiter, skill, description, companyWebsite, expiredDate) => async (dispatch) => {
+  export const createPost = ( form) => async (dispatch) => {
     try {
-      const res = await PostDataService.create({ jobtitle, company, location, numberOfRecruiter,skill, description, companyWebsite, expiredDate});
+      const res = await PostDataService.create(form);
       console.log('res', res)
 
       dispatch({
@@ -27,13 +27,15 @@ import {
   export const retrievePosts = () => async (dispatch) => {
     try {
       const res = await PostDataService.getAll();
+      // console.log('res', res)
 
       dispatch({
         type: RETRIEVE_POSTS,
         payload: res.data,
       });
+      return Promise.resolve(res.data);
     } catch (err) {
-      console.log(err);
+      return Promise.reject(err);
     }
   };
 

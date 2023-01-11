@@ -49,7 +49,7 @@ export default function UpdatePost(props) {
             console.log(e);
         });
     };
-    
+
     return (
         <div>
             {currentPost ? (
@@ -129,6 +129,24 @@ export default function UpdatePost(props) {
                 </div>
 
                 <div className="form-group">
+                    <label htmlFor="wage">hourly Wage: </label>
+                    <div className="input-group">
+                        <div className="input-group-prepend">
+                            <span className="input-group-text">$</span>
+                        </div>
+                    </div>
+                    <input
+                    type="number"
+                    className="form-control"
+                    id="wage"
+                    name="wage"
+                    value={currentPost.wage}
+                    onChange={handleInputChange}
+                    />
+                    </div>
+                <div/>
+
+                <div className="form-group">
                     <label htmlFor="companyWebsite">Website: </label>
                     <input
                         type="text"
@@ -137,6 +155,31 @@ export default function UpdatePost(props) {
                         name="companyWebsite"
                         value={currentPost.companyWebsite}
                         onChange={handleInputChange}
+                    />
+                </div>
+
+                <div className="form-check">
+                    <label  check className="form-check-label" htmlFor="sponsorship">
+                        <input
+                        type="checkbox"
+                        className="form-check-input"
+                        id="sponsorship"
+                        required
+                        value={currentPost.sponsorship}
+                        onChange={handleInputChange}
+                        name="sponsorship"
+                        />Click me to be a sponsorship
+                    </label>
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="picture">Upload Picture:</label>
+                    <input
+                    type="file"
+                    className="form-control-file"
+                    id="picture"
+                    value={currentPost.picture}
+                    placeholder="optional"
                     />
                 </div>
 

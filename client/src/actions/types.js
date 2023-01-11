@@ -13,3 +13,8 @@ export const LOGOUT_USER = "LOGOUT_USER";
 export const LOGOUTALL_USER = "LOGOUTALL_USER";
 export const DELETE_USER = "DELETE_USER";
 
+export const CREATE_APP = "CREATE_APP";
+export const DELETE_APP = "DELETE_APP";
+
+
+
