@@ -31,7 +31,9 @@ router.post('/posts', auth, upload.single('picture'), async (req, res) => {
             picture: buffer
         })
         await post.save()
-        res.status(201).send(post)
+        res.status(201)
+        // res.set('Content-Type', 'image/jpg')
+        res.send(post)
     } catch (e) {
         res.status(400).send(e)
     }
@@ -40,6 +42,7 @@ router.post('/posts', auth, upload.single('picture'), async (req, res) => {
 router.get('/posts',  async (req, res) => {
     try {
         const posts = await Post.find({}).sort({createdAt:'desc'})
+        res.set('Content-Type', 'image/jpg')
         res.status(201).send(posts)
     } catch (error) {
         res.status(500).send(error)
@@ -53,6 +56,7 @@ router.get('/posts/:id', async (req, res) => {
         if (!post) {
             return res.status(404).send()
         }
+        res.set('Content-Type', 'image/png')
         res.status(201).send(post)
     } catch (error) {
         res.status(500).send(error)

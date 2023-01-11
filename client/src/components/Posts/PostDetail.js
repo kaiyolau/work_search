@@ -74,7 +74,9 @@ function PostDetail(props) {
                     <strong>Expired date:</strong> {expiredDate}
                 </Typography>
                 <Typography>
-                    <strong>Picture:</strong> {picture}
+                    <strong>Picture:</strong>
+                    <br/>
+                    <img src={`data:image/png;base64, ${picture}`}/>
                 </Typography>
                 <br/>
                 {userId === author ? (

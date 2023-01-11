@@ -10,8 +10,8 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 import { getPlacesData } from './api/travelAdvisorAPI';
 import Header from './components/Header/Header';
-// import List from './components/List/List';
-// import Map from './components/Map/Map';
+import List from './components/List/List';
+import Map from './components/Map/Map';
 import SignInUser from './components/Users/SignInUser';
 import SignUpUser from './components/Users/SignUpUser';
 import ReadProfile from "./components/Users/ReadProfile";
@@ -19,7 +19,7 @@ import AddPost from "./components/Posts/AddPost";
 import UpdatePost from "./components/Posts/UpdatePost";
 import Post from "./components/Posts/Post";
 import CreateApp from "./components/Apps/CreateApp";
-import HomePage from "./components/HomePage";
+// import HomePage from "./components/HomePage";
 import AuthRoute from "./components/AuthRoute";
 
 
@@ -51,6 +51,9 @@ const App = () => {
 
 
   useEffect(() => {
+    navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
+      setCoords({ lat: latitude, lng: longitude });
+    })
     getCurrentUser()
     // dispatch(retrievePosts())
     // .then(response => {
@@ -66,29 +69,38 @@ const App = () => {
     //   setCoords({ lat: latitude, lng: longitude });
     // });
   }, []);
-  console.log(places)
+  console.log('places:',places)
+  console.log('coords:',coords)
 
   useEffect(() => {
     const filtered = places.filter((place) => Number(place.wage) > wage);
     setFilteredPlaces(filtered);
   }, [wage]);
 
-  // useEffect(() => {
-  //   if (bounds) {
-  //     setIsLoading(true);
+  useEffect(() => {
+    if (bounds) {
+      setIsLoading(true);
 
+      dispatch(retrievePosts())
+      .then(response => {
+          console.log(response)
+          setPlaces(response)
+            setFilteredPlaces([]);
+            setWage('');
+            setIsLoading(false);
 
-  //     // dispatch(retrievePosts());
-  //     //do the trieve all posting right here
-  //     // getPlacesData(bounds.sw, bounds.ne)
-  //     //   .then((data) => {
-  //     //     setPlaces(data.filter((place) => place.name && place.num_reviews > 0));
-  //     //     setFilteredPlaces([]);
-  //     //     setWage('');
-  //     //     setIsLoading(false);
-  //     //   });
-  //   }
-  // }, [bounds]);
+      })
+    .catch(e => { console.log(e) });
+      // getPlacesData(bounds.sw, bounds.ne)
+      //   .then((data) => {
+      //     setPlaces(data.filter((place) => place.name && place.num_reviews > 0));
+      //     setFilteredPlaces([]);
+      //     setWage('');
+      //     setIsLoading(false);
+      //   });
+    }
+  }, [bounds]);
+  console.log('bounds', bounds)
 
   const onLoad = (autoC) => setAutocomplete(autoC);
 
@@ -102,17 +114,20 @@ const App = () => {
 
   return (
     <Router>
-      <Grid container spacing={3} style={{ width: '100%' }}>
-      {/* <Grid item xs={12} md={4}>
-          <List
-            isLoading={isLoading}
-            childClicked={childClicked}
-            places={filteredPlaces.length ? filteredPlaces : places}
-            wage={wage}
-            setWage={setWage}
-          />
-        </Grid> */}
-        {/* <Grid item xs={12} md={8} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <CssBaseline />
+      <Header onPlaceChanged={onPlaceChanged} onLoad={onLoad}  currentUser={user} onSignOut={onSignOut} />
+      {/* <Grid container spacing={3} style={{ width: '100%' }}>
+        <Grid item xs={12} md={4}>
+            <List
+              isLoading={isLoading}
+              childClicked={childClicked}
+              // places={filteredPlaces.length ? filteredPlaces : places}
+              places={places}
+              wage={wage}
+              setWage={setWage}
+            />
+        </Grid>
+        <Grid item xs={12} md={8} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <Map
             setChildClicked={setChildClicked}
             setBounds={setBounds}
@@ -120,11 +135,34 @@ const App = () => {
             coords={coords}
             places={filteredPlaces.length ? filteredPlaces : places}
           />
-        </Grid> */}
-      </Grid>
-      <CssBaseline />
-      <Header onPlaceChanged={onPlaceChanged} onLoad={onLoad}  currentUser={user} onSignOut={onSignOut} />
+        </Grid>
+      </Grid> */}
+
+
       <Switch>
+        <Route exact path='/' render={(routeProps) =>
+          <Grid container spacing={3} style={{ width: '100%' }}>
+            <Grid item xs={12} md={4}>
+                <List
+                  isLoading={isLoading}
+                  childClicked={childClicked}
+                  // places={filteredPlaces.length ? filteredPlaces : places}
+                  places={places}
+                  wage={wage}
+                  setWage={setWage}
+                />
+            </Grid>
+            <Grid item xs={12} md={8} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <Map
+                setChildClicked={setChildClicked}
+                setBounds={setBounds}
+                setCoords={setCoords}
+                coords={coords}
+                places={filteredPlaces.length ? filteredPlaces : places}
+              />
+            </Grid>
+          </Grid>}
+        ></Route>
         <Route exact path='/sign_in' render={(routeProps) => <SignInUser {...routeProps} onSignIn={getCurrentUser} />}></Route>
         <Route exact path='/sign_up' render={(routeProps) => <SignUpUser {...routeProps} onSignIn={getCurrentUser} />}></Route>
         <AuthRoute isAuthenticated={!!user}  exact path='/posts/Add' component={AddPost} />
@@ -132,7 +170,7 @@ const App = () => {
         <Route exact path="/posts/:id/update" render={(routeProps) => <UpdatePost {...routeProps} />}/>
         <AuthRoute exact path='/users/me' component={ReadProfile} isAuthenticated={!!user} onSignOut={onSignOut}/>
         <Route exact path="/posts/:postingId/apps" render={(routeProps) => <CreateApp {...routeProps} />}/>
-        <Route exact path={["/", "/posts"]} component={HomePage}/>
+        {/* <Route exact path={["/", "/posts"]} component={HomePage}/> */}
       </Switch>
     </Router>
 
