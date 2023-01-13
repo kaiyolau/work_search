@@ -14,6 +14,7 @@ import List from './components/List/List';
 import Map from './components/Map/Map';
 import SignInUser from './components/Users/SignInUser';
 import SignUpUser from './components/Users/SignUpUser';
+import Dashboard from './components/Users/Dashboard';
 import ReadProfile from "./components/Users/ReadProfile";
 import AddPost from "./components/Posts/AddPost";
 import UpdatePost from "./components/Posts/UpdatePost";
@@ -166,6 +167,7 @@ const App = () => {
         ></Route>
         <Route exact path='/sign_in' render={(routeProps) => <SignInUser {...routeProps} onSignIn={getCurrentUser} />}></Route>
         <Route exact path='/sign_up' render={(routeProps) => <SignUpUser {...routeProps} onSignIn={getCurrentUser} />}></Route>
+        <Route exact path='/users/:userId/posts' render={(routeProps) => <Dashboard {...routeProps} onSignIn={getCurrentUser} />}></Route>
         <AuthRoute isAuthenticated={!!user}  exact path='/posts/Add' component={AddPost} />
         <Route exact path="/posts/:id" render={(routeProps) => <Post {...routeProps} />}/>
         <Route exact path="/posts/:id/update" render={(routeProps) => <UpdatePost {...routeProps} />}/>
