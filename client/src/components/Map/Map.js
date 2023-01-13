@@ -10,7 +10,13 @@ const Map = ({ coords, places, setCoords, setBounds, setChildClicked }) => {
   const matches = useMediaQuery('(min-width:600px)');
   const classes = useStyles();
 
-
+  const defaultProps = {
+    center: {
+      lat: 10.99835602,
+      lng: 77.01502627
+    },
+    zoom: 11
+  };
 
 
   // useEffect(() => {
@@ -21,17 +27,20 @@ const Map = ({ coords, places, setCoords, setBounds, setChildClicked }) => {
     <div className={classes.mapContainer} id="tareget">
       <GoogleMapReact
         bootstrapURLKeys={{ key: 'AIzaSyDpAI-CLHayhuhG9H94elpplkRoIFfi884' }}
+        defaultCenter={defaultProps.center}
+        defaultZoom={defaultProps.zoom}
         // defaultCenter={coords}
         // center={coords}
         // defaultZoom={10}
-        // margin={[50, 50, 50, 50]}
-        // options={{ disableDefaultUI: true, zoomControl: true, styles: mapStyles }}
+        margin={[50, 50, 50, 50]}
+        options={{ disableDefaultUI: true, zoomControl: true, styles: mapStyles }}
         // onChange={(e) => {
         //   setCoords({ lat: e.center.lat, lng: e.center.lng });
         //   setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw });
         // }}
         // onChildClick={(child) => setChildClicked(child)}
       >
+        <div>testing map</div>
         {/* {places.length && places.map((place, i) => (
           <div
             className={classes.markerContainer}

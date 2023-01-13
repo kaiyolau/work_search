@@ -39,7 +39,7 @@ const Header = ({ onPlaceChanged, onLoad, currentUser, onSignOut }) => {
             <Button color="inherit" component={Link} to='/posts/Add' >Create a new post</Button>
             <Button color="inherit" component={Link} to='/users/me' >Profile</Button>
             <span>Welcome back!</span>
-            <Button color="inherit" component={Link} to={`/posts/63bbdb3e6da0a57a2310047c`} >IdPost</Button>
+            <Button color="inherit" component={Link} to={`/users/:userId/posts`} >Dashboard</Button>
             <Button onClick={handleSignOut} color="inherit">Sign Out</Button>
           </>
         ) : (

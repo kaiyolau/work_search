@@ -9,14 +9,23 @@ const login = data => {
 
   };
 
-  const get = () => {
-    const token = localStorage.getItem('token');
-    return http.get('/users/me', {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
-  };
+const get = () => {
+  const token = localStorage.getItem('token');
+  return http.get('/users/me', {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+};
+
+const getUserPosts = (userId) => {
+  const token = localStorage.getItem('token');
+  return http.get(`users/${userId}/posts`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+};
 
 
 const logout = () => {
@@ -45,6 +54,7 @@ const UserService = {
     create,
     login,
     get,
+    getUserPosts,
     logout,
     logoutAll,
     remove

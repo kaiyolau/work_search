@@ -58,6 +58,20 @@ import {
     }
   };
 
+  // export const retrieveUserPosts = () => async (dispatch) => {
+  //   try {
+  //     const res = await UserDataService.getUserPosts();
+
+  //     dispatch({
+  //       type: RETRIEVE_USER,
+  //       payload: res.data,
+  //     });
+  //     return Promise.resolve(res.data);
+  //   } catch (err) {
+  //     return Promise.reject(err);
+  //   }
+  // };
+
   export const logoutUser = () => async (dispatch) => {
     try {
       const res = await UserDataService.logout();

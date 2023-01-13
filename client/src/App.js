@@ -14,6 +14,7 @@ import List from './components/List/List';
 import Map from './components/Map/Map';
 import SignInUser from './components/Users/SignInUser';
 import SignUpUser from './components/Users/SignUpUser';
+import Dashboard from './components/Users/Dashboard';
 import ReadProfile from "./components/Users/ReadProfile";
 import AddPost from "./components/Posts/AddPost";
 import UpdatePost from "./components/Posts/UpdatePost";
@@ -51,23 +52,24 @@ const App = () => {
 
 
   useEffect(() => {
+    setIsLoading(true);
+
     navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
       setCoords({ lat: latitude, lng: longitude });
     })
-    getCurrentUser()
-    // dispatch(retrievePosts())
-    // .then(response => {
-    //     // console.log(response)
-    //     setPlaces(response)
-    //   //     setFilteredPlaces([]);
-    //   //     setWage('');
-    //   //     setIsLoading(false);
 
-    // })
-    // .catch(e => { console.log(e) });
-    // navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
-    //   setCoords({ lat: latitude, lng: longitude });
-    // });
+    getCurrentUser()
+
+    dispatch(retrievePosts())
+    .then(response => {
+        console.log(response)
+        setPlaces(response)
+          setFilteredPlaces([]);
+          setWage('');
+          setIsLoading(false);
+
+    })
+    .catch(e => { console.log(e) });
   }, []);
   console.log('places:',places)
   console.log('coords:',coords)
@@ -81,16 +83,16 @@ const App = () => {
     if (bounds) {
       setIsLoading(true);
 
-      dispatch(retrievePosts())
-      .then(response => {
-          console.log(response)
-          setPlaces(response)
-            setFilteredPlaces([]);
-            setWage('');
-            setIsLoading(false);
+    //   dispatch(retrievePosts())
+    //   .then(response => {
+    //       console.log(response)
+    //       setPlaces(response.data)
+    //         setFilteredPlaces([]);
+    //         setWage('');
+    //         setIsLoading(false);
 
-      })
-    .catch(e => { console.log(e) });
+    //   })
+    // .catch(e => { console.log(e) });
       // getPlacesData(bounds.sw, bounds.ne)
       //   .then((data) => {
       //     setPlaces(data.filter((place) => place.name && place.num_reviews > 0));
@@ -127,7 +129,7 @@ const App = () => {
               setWage={setWage}
             />
         </Grid>
-        <Grid item xs={12} md={8} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Grid item xs={12} md={8} style={{ height: '100vh', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <Map
             setChildClicked={setChildClicked}
             setBounds={setBounds}
@@ -152,7 +154,7 @@ const App = () => {
                   setWage={setWage}
                 />
             </Grid>
-            <Grid item xs={12} md={8} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            {/* <Grid item xs={12} md={8} style={{  display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <Map
                 setChildClicked={setChildClicked}
                 setBounds={setBounds}
@@ -160,11 +162,12 @@ const App = () => {
                 coords={coords}
                 places={filteredPlaces.length ? filteredPlaces : places}
               />
-            </Grid>
+            </Grid> */}
           </Grid>}
         ></Route>
         <Route exact path='/sign_in' render={(routeProps) => <SignInUser {...routeProps} onSignIn={getCurrentUser} />}></Route>
         <Route exact path='/sign_up' render={(routeProps) => <SignUpUser {...routeProps} onSignIn={getCurrentUser} />}></Route>
+        <Route exact path='/users/:userId/posts' render={(routeProps) => <Dashboard {...routeProps} onSignIn={getCurrentUser} />}></Route>
         <AuthRoute isAuthenticated={!!user}  exact path='/posts/Add' component={AddPost} />
         <Route exact path="/posts/:id" render={(routeProps) => <Post {...routeProps} />}/>
         <Route exact path="/posts/:id/update" render={(routeProps) => <UpdatePost {...routeProps} />}/>
