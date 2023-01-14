@@ -5,6 +5,7 @@ import {
     deleteUser
 } from "../../actions/users";
 import { Link } from "react-router-dom";
+import { Card, CardBody, CardTitle, CardText } from 'reactstrap';
 
 
 export default function ReadProfile(props) {
@@ -32,12 +33,16 @@ export default function ReadProfile(props) {
 
     const { name, email, age } = user
     return (
-        <div>
-            <h1>{name}</h1>
-            <p>{email}</p>
-            <p>{age}</p>
-            <button className="m-3 btn btn-sm btn-danger" onClick={deleteHandle}>Delete User</button>
-        </div>
+            <div className="justify-content-center">
+                <Card className="mb-3 ">
+                <CardBody>
+                    <CardTitle>{name}</CardTitle>
+                    <CardText>Email: {email}</CardText>
+                    <CardText>Age: {age}</CardText>
+                    <button className="m-3 btn btn-sm btn-danger" onClick={deleteHandle}>Delete User</button>
+                </CardBody>
+                </Card>
+            </div>
         );
 
 }

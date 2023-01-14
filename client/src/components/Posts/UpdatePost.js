@@ -9,6 +9,7 @@ export default function UpdatePost(props) {
     const [currentPost, setCurrentPost] = useState({});
     const [message, setMessage] = useState("");
     const dispatch = useDispatch();
+    const [picture, setPicture] = useState(null);
 
     const getPost = id => {
         PostDataService.get(id)
@@ -33,9 +34,19 @@ export default function UpdatePost(props) {
     }, []);
 
     const handleInputChange = event => {
-        const { name, value } = event.target;
-        setCurrentPost({ ...currentPost, [name]: value });
+        if (event.target.name === 'sponsorship') {
+            setCurrentPost({ ...currentPost, sponsorship: event.target.checked })
+        } else {
+            const { name, value } = event.target;
+            setCurrentPost({ ...currentPost, [name]: value })
+        }
+        // const { name, value } = event.target;
+        // setCurrentPost({ ...currentPost, [name]: value });
     };
+    const handlePictureChange = (event) => {
+        // setPost({ ...post, picture: event.target.files[0] });
+        setPicture(event.target.files[0]);
+    }
 
 
     const updateContent = () => {
@@ -49,6 +60,7 @@ export default function UpdatePost(props) {
             console.log(e);
         });
     };
+
 
     return (
         <div>
@@ -172,16 +184,17 @@ export default function UpdatePost(props) {
                     </label>
                 </div>
 
-                <div className="form-group">
+                {/* <div className="form-group">
                     <label htmlFor="picture">Upload Picture:</label>
                     <input
                     type="file"
                     className="form-control-file"
                     id="picture"
+                    onChange={handlePictureChange}
                     value={currentPost.picture}
                     placeholder="optional"
                     />
-                </div>
+                </div> */}
 
                 </form>
 

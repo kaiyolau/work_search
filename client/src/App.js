@@ -4,7 +4,7 @@ import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useDispatch} from "react-redux";
 import { retrievePosts } from "./actions/posts";
-import UserDataService from "./services/UserService";
+// import UserDataService from "./services/UserService";
 import { CssBaseline, Grid } from '@material-ui/core';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 

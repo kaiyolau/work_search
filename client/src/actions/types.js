@@ -9,6 +9,7 @@ export const DELETE_ALL_POSTS = "DELETE_ALL_POSTS";
 export const CREATE_USER = "CREATE_USER";
 export const LOGIN_USER = "LOGIN_USER";
 export const RETRIEVE_USER = "RETRIEVE_USER";
+export const RETRIEVE_USERPOSTS = "RETRIEVE_USERPOSTS";
 export const LOGOUT_USER = "LOGOUT_USER";
 export const LOGOUTALL_USER = "LOGOUTALL_USER";
 export const DELETE_USER = "DELETE_USER";
