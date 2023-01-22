@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import './App.css';
+// import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useDispatch} from "react-redux";
 import { retrievePosts } from "./actions/posts";
@@ -60,19 +60,9 @@ const App = () => {
 
     getCurrentUser()
 
-    dispatch(retrievePosts())
-    .then(response => {
-        console.log(response)
-        setPlaces(response)
-          setFilteredPlaces([]);
-          setWage('');
-          setIsLoading(false);
 
-    })
-    .catch(e => { console.log(e) });
   }, []);
-  console.log('places:',places)
-  console.log('coords:',coords)
+
 
   useEffect(() => {
     const filtered = places.filter((place) => Number(place.wage) > wage);
@@ -83,16 +73,16 @@ const App = () => {
     if (bounds) {
       setIsLoading(true);
 
-    //   dispatch(retrievePosts())
-    //   .then(response => {
-    //       console.log(response)
-    //       setPlaces(response.data)
-    //         setFilteredPlaces([]);
-    //         setWage('');
-    //         setIsLoading(false);
+      dispatch(retrievePosts())
+      .then(response => {
+          console.log('respnse',response)
+          setPlaces(response.data)
+            setFilteredPlaces([]);
+            setWage('');
+            setIsLoading(false);
 
-    //   })
-    // .catch(e => { console.log(e) });
+      })
+    .catch(e => { console.log(e) });
       // getPlacesData(bounds.sw, bounds.ne)
       //   .then((data) => {
       //     setPlaces(data.filter((place) => place.name && place.num_reviews > 0));
@@ -103,7 +93,8 @@ const App = () => {
     }
   }, [bounds]);
   console.log('bounds', bounds)
-
+  console.log('places:',places)
+  console.log('coords:',coords)
   const onLoad = (autoC) => setAutocomplete(autoC);
 
   const onPlaceChanged = () => {
@@ -118,27 +109,6 @@ const App = () => {
     <Router>
       <CssBaseline />
       <Header onPlaceChanged={onPlaceChanged} onLoad={onLoad}  currentUser={user} onSignOut={onSignOut} />
-      {/* <Grid container spacing={3} style={{ width: '100%' }}>
-        <Grid item xs={12} md={4}>
-            <List
-              isLoading={isLoading}
-              childClicked={childClicked}
-              // places={filteredPlaces.length ? filteredPlaces : places}
-              places={places}
-              wage={wage}
-              setWage={setWage}
-            />
-        </Grid>
-        <Grid item xs={12} md={8} style={{ height: '100vh', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <Map
-            setChildClicked={setChildClicked}
-            setBounds={setBounds}
-            setCoords={setCoords}
-            coords={coords}
-            places={filteredPlaces.length ? filteredPlaces : places}
-          />
-        </Grid>
-      </Grid> */}
 
 
       <Switch>
@@ -154,15 +124,16 @@ const App = () => {
                   setWage={setWage}
                 />
             </Grid>
-            {/* <Grid item xs={12} md={8} style={{  display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Grid item xs={12} md={8} style={{  display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <Map
                 setChildClicked={setChildClicked}
                 setBounds={setBounds}
                 setCoords={setCoords}
                 coords={coords}
-                places={filteredPlaces.length ? filteredPlaces : places}
+                // places={filteredPlaces.length ? filteredPlaces : places}
+                places={places}
               />
-            </Grid> */}
+            </Grid>
           </Grid>}
         ></Route>
         <Route exact path='/sign_in' render={(routeProps) => <SignInUser {...routeProps} onSignIn={getCurrentUser} />}></Route>

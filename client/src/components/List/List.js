@@ -10,7 +10,7 @@ const List = ({ places, wage, setWage, childClicked, isLoading }) => {
   const classes = useStyles();
 
   useEffect(() => {
-    setElRefs((refs) => Array(places.length).fill().map((_, i) => refs[i] || createRef()));
+    setElRefs((refs) => Array(places?.length).fill().map((_, i) => refs[i] || createRef()));
   }, [places]);
 
   return (
@@ -35,7 +35,7 @@ const List = ({ places, wage, setWage, childClicked, isLoading }) => {
 
             <Grid container spacing={3} className={classes.list}>
               {/* places?.map */}
-              {places.map((place, i) => (
+              {places?.map((place, i) => (
                   <Grid ref={elRefs[i]} key={i} item xs={12}>
                     <PlaceDetails selected={Number(childClicked) === i} refProp={elRefs[i]} place={place} />
                   </Grid>

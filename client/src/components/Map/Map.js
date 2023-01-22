@@ -5,43 +5,32 @@ import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
 // import Rating from '@material-ui/lab/Rating';
 
 import mapStyles from '../../mapStyles';
-import useStyles from './styles.js';
+import useStyles from './styles';
 const Map = ({ coords, places, setCoords, setBounds, setChildClicked }) => {
   const matches = useMediaQuery('(min-width:600px)');
   const classes = useStyles();
 
-  const defaultProps = {
-    center: {
-      lat: 10.99835602,
-      lng: 77.01502627
-    },
-    zoom: 11
-  };
 
-
-  // useEffect(() => {
-
-  // });
+  useEffect(() => {
+    console.log('coords', coords)
+  }, []);
 
   return (
-    <div className={classes.mapContainer} id="tareget">
+    <div className={classes.mapContainer}>
       <GoogleMapReact
-        bootstrapURLKeys={{ key: 'AIzaSyDpAI-CLHayhuhG9H94elpplkRoIFfi884' }}
-        defaultCenter={defaultProps.center}
-        defaultZoom={defaultProps.zoom}
-        // defaultCenter={coords}
-        // center={coords}
-        // defaultZoom={10}
+        bootstrapURLKeys={{ key: 'AIzaSyA7ed27_rODGd-DHutbbfZNtKiS7gCOiUo' }}
+        defaultCenter={coords}
+        center={coords}
+        defaultZoom={10}
         margin={[50, 50, 50, 50]}
         options={{ disableDefaultUI: true, zoomControl: true, styles: mapStyles }}
-        // onChange={(e) => {
-        //   setCoords({ lat: e.center.lat, lng: e.center.lng });
-        //   setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw });
-        // }}
-        // onChildClick={(child) => setChildClicked(child)}
+        onChange={(e) => {
+          setCoords({ lat: e.center.lat, lng: e.center.lng });
+          setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw });
+        }}
+        onChildClick={(child) => setChildClicked(child)}
       >
-        <div>testing map</div>
-        {/* {places.length && places.map((place, i) => (
+        {places?.length && places?.map((place, i) => (
           <div
             className={classes.markerContainer}
             lat={Number(place.latitude)}
@@ -57,11 +46,10 @@ const Map = ({ coords, places, setCoords, setBounds, setChildClicked }) => {
                     className={classes.pointer}
                     src={place.picture ? place.picture : 'https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg'}
                   />
-                  <Rating name="read-only" size="small" value={Number(place.wage)} readOnly />
                 </Paper>
               )}
           </div>
-        ))} */}
+        ))}
       </GoogleMapReact>
     </div>
   );
