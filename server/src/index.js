@@ -57,10 +57,10 @@ const postRouter = require('./routers/post')
 const appRouter = require('./routers/app')
 
 app.use(express.json())
+app.use(bodyParser.json());
 app.use('/api',userRouter)
 app.use('/api',postRouter)
 app.use('/api',appRouter)
-
 
 
 const port = process.env.PORT || 3002

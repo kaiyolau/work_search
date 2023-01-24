@@ -5,6 +5,7 @@ const Post = require('../models/post')
 const auth = require('../middleware/auth')
 const User = require('../models/user')
 const router = new express.Router()
+const request = require('request');
 
 
 const upload = multer({
@@ -25,15 +26,41 @@ router.post('/posts', auth, upload.single('picture'), async (req, res) => {
         if (req.file) {
             buffer = await sharp(req.file.buffer).resize({ width: 500, height: 800 }).png().toBuffer()
         }
-        const post = new Post({
-            ...req.body,
-            author: req.user._id,
-            picture: buffer
-        })
-        await post.save()
-        res.status(201)
-        // res.set('Content-Type', 'image/jpg')
-        res.send(post)
+        const address = req.body.location;
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GEOCODE_API_KEY}`;
+
+        request(url, { json: true }, (err, response, body) => {
+            if (err) {
+                return res.status(500).send(err);
+            }
+
+            if (body.status === 'ZERO_RESULTS') {
+                return res.status(404).send({ message: 'No results found' });
+            }
+
+            const location = body.results[0].geometry.location;
+            const lat = location.lat;
+            const lng = location.lng;
+
+            const post = new Post({
+                latitude: lat,
+                longitude: lng,
+                ...req.body,
+                author: req.user._id,
+                picture: buffer
+            })
+
+            post.save().then(() => {
+                res.status(201)
+                res.send(post)
+            }).catch((e) => {
+                res.status(500).send(e)
+            })
+        });
+
+
+
+
     } catch (e) {
         res.status(400).send(e)
     }

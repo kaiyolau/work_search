@@ -10,15 +10,10 @@ const Map = ({ coords, places, setCoords, setBounds, setChildClicked }) => {
   const matches = useMediaQuery('(min-width:600px)');
   const classes = useStyles();
 
-
-  useEffect(() => {
-    console.log('coords', coords)
-  }, []);
-
   return (
     <div className={classes.mapContainer}>
       <GoogleMapReact
-        bootstrapURLKeys={{ key: 'AIzaSyA7ed27_rODGd-DHutbbfZNtKiS7gCOiUo' }}
+        bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY }}
         defaultCenter={coords}
         center={coords}
         defaultZoom={10}
@@ -30,11 +25,12 @@ const Map = ({ coords, places, setCoords, setBounds, setChildClicked }) => {
         }}
         onChildClick={(child) => setChildClicked(child)}
       >
-        {places?.length && places?.map((place, i) => (
+        {places.length && places.map((place, i) => (
           <div
             className={classes.markerContainer}
-            lat={Number(place.latitude)}
-            lng={Number(place.longitude)}
+            //this doesn't work
+            lat={Number(place.location.latitude)}
+            lng={Number(place.location.longitude)}
             key={i}
           >
             {!matches
@@ -44,7 +40,7 @@ const Map = ({ coords, places, setCoords, setBounds, setChildClicked }) => {
                   <Typography className={classes.typography} variant="subtitle2" gutterBottom> {place.jobtitle}</Typography>
                   <img
                     className={classes.pointer}
-                    src={place.picture ? place.picture : 'https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg'}
+                    src={place.picture ? `data:image/png;base64,${place.picture}` : 'https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg'}
                   />
                 </Paper>
               )}

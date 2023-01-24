@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-// import './App.css';
+import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useDispatch} from "react-redux";
 import { retrievePosts } from "./actions/posts";
@@ -76,7 +76,7 @@ const App = () => {
       dispatch(retrievePosts())
       .then(response => {
           console.log('respnse',response)
-          setPlaces(response.data)
+          setPlaces(response)
             setFilteredPlaces([]);
             setWage('');
             setIsLoading(false);

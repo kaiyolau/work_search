@@ -76,7 +76,10 @@ function PostDetail(props) {
                 <Typography>
                     <strong>Picture:</strong>
                     <br/>
-                    <img src={`data:image/png;base64, ${picture}`}/>
+                    <img
+                        src={`data:image/png;base64, ${picture}`}
+                        // style={{ objectFit: "none", overflow: "hidden", width: "200px", height: "200px" }}
+                    />
                 </Typography>
                 <br/>
                 {userId === author ? (
