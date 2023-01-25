@@ -1,0 +1,40 @@
+.homePage {
+  background-image: url(https://www.colliers.com/-/media/images/colliers/asia/philippines/colliers-review/collierreview_hero_image_01312022_v2/hero_image_tondominium/hero_image_021522/hero_image_colliersviewpoint_022222.ashx?bid=0f5b3ed2a8de41f89e1a8d557e48f9f8);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+h1{
+  width:50%;
+  text-align:center;
+}
+
+.customButton {
+  letter-spacing: 7px;
+  border-radius: 30px;
+  opacity: 0.9;
+  font-size:55px;
+  font-weight: bold;
+  padding:10px;
+  background-color: #336EFF;
+  color: white;
+  text-decoration:none;
+  width:350px;
+  text-align:center;
+  font-family: 'Dancing Script', cursive;
+}
+
+.customButton:hover {
+  color: white;
+  box-shadow: 10px 10px 15px rgba(0, 0, 0, 1.3);
+  transform: scale(1.2);
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+
+
+

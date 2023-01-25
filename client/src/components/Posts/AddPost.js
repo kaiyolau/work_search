@@ -200,6 +200,8 @@ const AddPost = () => {
                         value={post.description}
                         onChange={handleInputChange}
                         name="description"
+                        placeholder="minimum 50 words"
+
                     >
                         Description
                     </textarea>
@@ -265,6 +267,7 @@ const AddPost = () => {
 
                 <div className="form-group">
                     <label htmlFor="picture" className='custom-file-label'>Upload job post Picture:</label>
+                    <br/>
                     <input
                     type="file"
                     className="custom-file-input"

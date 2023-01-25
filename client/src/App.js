@@ -20,7 +20,7 @@ import AddPost from "./components/Posts/AddPost";
 import UpdatePost from "./components/Posts/UpdatePost";
 import Post from "./components/Posts/Post";
 import CreateApp from "./components/Apps/CreateApp";
-// import HomePage from "./components/HomePage";
+import HomePage from "./components/HomePage";
 import AuthRoute from "./components/AuthRoute";
 
 
@@ -112,7 +112,7 @@ const App = () => {
 
 
       <Switch>
-        <Route exact path='/' render={(routeProps) =>
+        <Route exact path='/posts' render={(routeProps) =>
           <Grid container spacing={3} style={{ width: '100%' }}>
             <Grid item xs={12} md={4}>
                 <List
@@ -144,7 +144,7 @@ const App = () => {
         <Route exact path="/posts/:id/update" render={(routeProps) => <UpdatePost {...routeProps} />}/>
         <AuthRoute exact path='/users/me' component={ReadProfile} isAuthenticated={!!user} onSignOut={onSignOut}/>
         <Route exact path="/posts/:postingId/apps" render={(routeProps) => <CreateApp {...routeProps} />}/>
-        {/* <Route exact path={["/", "/posts"]} component={HomePage}/> */}
+        <Route exact path="/" component={HomePage}/>
       </Switch>
     </Router>
 

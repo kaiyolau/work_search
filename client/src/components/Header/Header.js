@@ -30,7 +30,7 @@ const Header = ({ onPlaceChanged, onLoad, currentUser, onSignOut }) => {
   return (
     <AppBar position="static">
       <Toolbar className={classes.toolbar}>
-        <Button component={Link} to="/" color="inherit" className={classes.title}>
+        <Button component={Link} to="/posts" color="inherit" className={classes.title}>
           Jobs near your home
         </Button>
 
