@@ -18,9 +18,9 @@ const get = () => {
   });
 };
 
-const getUserPosts = (userId) => {
+const getUserPosts = () => {
   const token = localStorage.getItem('token');
-  return http.get(`users/${userId}/posts`, {
+  return http.get(`users/:userId/posts`, {
     headers: {
       'Authorization': `Bearer ${token}`
     }

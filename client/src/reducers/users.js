@@ -2,6 +2,7 @@ import {
     CREATE_USER,
     LOGIN_USER,
     RETRIEVE_USER,
+    RETRIEVE_USERPOSTS,
     LOGOUT_USER,
     LOGOUTALL_USER,
     DELETE_USER,
@@ -20,6 +21,9 @@ import {
         return [...user, payload];
 
       case RETRIEVE_USER:
+        return payload;
+
+      case RETRIEVE_USERPOSTS:
         return payload;
 
       case LOGOUT_USER:

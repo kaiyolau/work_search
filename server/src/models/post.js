@@ -19,6 +19,40 @@ const postSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    location_obj: {
+        city:{
+            type: String,
+            trim: true
+        },
+        country:{
+            type: String,
+            trim: true
+        },
+        postalcode:{
+            type: String,
+            trim: true
+        },
+        state:{
+            type: String,
+            trim: true
+        },
+        street1:{
+            type: String,
+            trim: true
+        },
+        street2:{
+            type: String,
+            trim: true
+        },
+    },
+    latitude:{
+        type: Number,
+        trim: true
+    },
+    longitude:{
+        type: Number,
+        trim: true
+    },
     numberOfRecruiter: {
         type: Number,
         min: 1

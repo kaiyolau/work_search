@@ -2,6 +2,7 @@ import {
     CREATE_USER,
     LOGIN_USER,
     RETRIEVE_USER,
+    RETRIEVE_USERPOSTS,
     LOGOUT_USER,
     LOGOUTALL_USER,
     DELETE_USER,
@@ -31,7 +32,6 @@ import {
       localStorage.setItem('token', res.data.token);
 
       const token = localStorage.getItem('token');
-      console.log('showing token from loginUser:',token)
       dispatch({
         type: LOGIN_USER,
         payload: res.data,
@@ -58,19 +58,19 @@ import {
     }
   };
 
-  // export const retrieveUserPosts = () => async (dispatch) => {
-  //   try {
-  //     const res = await UserDataService.getUserPosts();
-
-  //     dispatch({
-  //       type: RETRIEVE_USER,
-  //       payload: res.data,
-  //     });
-  //     return Promise.resolve(res.data);
-  //   } catch (err) {
-  //     return Promise.reject(err);
-  //   }
-  // };
+  export const retrieveUserPosts = () => async (dispatch) => {
+    try {
+      const res = await UserDataService.getUserPosts();
+      // console.log('res', res)
+      dispatch({
+        type: RETRIEVE_USERPOSTS,
+        payload: res.data,
+      });
+      return Promise.resolve(res.data);
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  };
 
   export const logoutUser = () => async (dispatch) => {
     try {
