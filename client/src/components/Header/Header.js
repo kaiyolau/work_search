@@ -3,7 +3,6 @@ import { useDispatch  } from "react-redux";
 import {NavLink, Link} from 'react-router-dom';
 import { Autocomplete } from '@react-google-maps/api';
 import { AppBar, Toolbar, Typography, InputBase, Box, Button } from '@material-ui/core';
-import { Nav, Navbar } from 'react-bootstrap';
 import SearchIcon from '@material-ui/icons/Search';
 import {
   logoutAllUser

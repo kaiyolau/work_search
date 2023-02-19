@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -8,7 +7,7 @@ import { retrievePosts } from "./actions/posts";
 import { CssBaseline, Grid } from '@material-ui/core';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
-import { getPlacesData } from './api/travelAdvisorAPI';
+
 import Header from './components/Header/Header';
 import List from './components/List/List';
 import Map from './components/Map/Map';

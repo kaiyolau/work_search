@@ -4,7 +4,6 @@ import { createPost } from "../../actions/posts";
 // import 'bootstrap/dist/css/bootstrap.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import {  Form, FormGroup, Button, Label, Input, Container, Row, Col } from 'react-bootstrap';
 
 const AddPost = () => {
     const [checked, setChecked] = useState(false);
