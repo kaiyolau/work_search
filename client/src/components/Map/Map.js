@@ -7,7 +7,7 @@ import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
 import mapStyles from '../../mapStyles';
 import useStyles from './styles';
 const Map = ({ coords, places, setCoords, setBounds, setChildClicked }) => {
-  const matches = useMediaQuery('(min-width:600px)');
+  const matches = useMediaQuery('(min-width:500px)');
   const classes = useStyles();
 
   return (
@@ -16,7 +16,7 @@ const Map = ({ coords, places, setCoords, setBounds, setChildClicked }) => {
         bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY }}
         defaultCenter={coords}
         center={coords}
-        defaultZoom={10}
+        defaultZoom={12}
         margin={[50, 50, 50, 50]}
         options={{ disableDefaultUI: true, zoomControl: true, styles: mapStyles }}
         onChange={(e) => {
@@ -28,10 +28,9 @@ const Map = ({ coords, places, setCoords, setBounds, setChildClicked }) => {
         {places.length && places.map((place, i) => (
           <div
             className={classes.markerContainer}
-            //this doesn't work
-            lat={Number(place.location.latitude)}
-            lng={Number(place.location.longitude)}
             key={i}
+            lat={Number(place.latitude)}
+            lng={Number(place.longitude)}
           >
             {!matches
               ? <LocationOnOutlinedIcon color="primary" fontSize="large" />
