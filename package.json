@@ -2,11 +2,14 @@
   "name": "work_search",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/index.js",
-    "dev": "env-cmd ./config/dev.env  nodemon src/index.js"
+    "build": "cd client && npm run build",
+    "install-client": "cd client && npm install",
+    "heroku-postbuild": "npm run install-client && npm run build",
+    "start": "env-cmd ./config/dev.env node index.js",
+    "dev": "env-cmd ./config/dev.env  nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -36,10 +39,13 @@
     "validator": "^13.7.0"
   },
   "devDependencies": {
+    "dotenv": "^16.0.3",
     "env-cmd": "^8.0.2",
     "nodemon": "^2.0.20"
   },
-  
-  "buildpack": "https://github.com/heroku/heroku-buildpack-nodejs"
+  "engines": {
+    "node": "16.17.0"
+  },
 
+  "buildpack": "https://github.com/heroku/heroku-buildpack-nodejs"
 }

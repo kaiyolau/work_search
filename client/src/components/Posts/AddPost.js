@@ -4,7 +4,6 @@ import { createPost } from "../../actions/posts";
 // import 'bootstrap/dist/css/bootstrap.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import {  Form, FormGroup, Button, Label, Input, Container, Row, Col } from 'react-bootstrap';
 
 const AddPost = () => {
     const [checked, setChecked] = useState(false);
@@ -42,7 +41,6 @@ const AddPost = () => {
 
 
     const handlePictureChange = (event) => {
-        // setPost({ ...post, picture: event.target.files[0] });
         setPicture(event.target.files[0]);
     }
 
@@ -63,26 +61,9 @@ const AddPost = () => {
         formData.append('picture', picture);
         formData.append('sponsorship', sponsorship);
 
-        console.log('this is Formdata',formData.get('picture'))
-        const form =
-        {
-            jobtitle: formData.get('jobtitle'),
-            company: formData.get('company'),
-            location: formData.get('location'),
-            numberOfRecruiter: formData.get('numberOfRecruiter'),
-            skill: formData.get('skill'),
-            description: formData.get('description'),
-            wage: formData.get('wage'),
-            companyWebsite: formData.get('companyWebsite'),
-            expiredDate: formData.get('expiredDate'),
-            picture: formData.get('picture'),
-            sponsorship: formData.get('sponsorship')
-        }
-        console.log('form,',form)
+        // console.log('this is Formdata',formData.get('picture'))
 
-
-        // console.log('post:', post)
-        dispatch(createPost(form))
+        dispatch(createPost(formData))
         .then(data => {
             setPost({
             id: data.id,

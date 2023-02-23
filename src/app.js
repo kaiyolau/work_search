@@ -1,17 +1,14 @@
+// require('./db/mongoose')
 const express = require('express')
+const app = express()
 const session = require('express-session');
 const morgan = require('morgan');
 require('./db/mongoose')
 const mongoose = require('mongoose')
-mongoose.set('strictQuery', true);
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
 
-//--------------------BODY PARSER and URLENCODED MIDDLEWARE-------------------->
-// app.use(express.urlencoded({extended: true}))
-
-const app = express()
 
 app.use(session({
   secret: 'secret',  // This can be any string used to sign the session ID cookie
@@ -63,8 +60,6 @@ app.use('/api',postRouter)
 app.use('/api',appRouter)
 
 
-const port = process.env.PORT || 3002
 
-app.listen(port, () => {
-    console.log('Server is up on port ' + port)
-})
+
+module.exports = app

@@ -9,7 +9,7 @@ import {
     Typography,
     Button,
     } from '@material-ui/core';
-import PostService from '../../services/PostService';
+
 
 
 function PostDetail(props) {
