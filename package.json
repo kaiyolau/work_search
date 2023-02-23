@@ -9,6 +9,7 @@
     "install-client": "cd client && npm install",
     "heroku-postbuild": "npm run install-client && npm run build",
     "start": "env-cmd ./config/dev.env node index.js",
+    "start:client": "npm run heroku-postbuild && serve -s client/build -l 5500",
     "dev": "env-cmd ./config/dev.env  nodemon index.js"
   },
   "repository": {
@@ -39,6 +40,7 @@
     "validator": "^13.7.0"
   },
   "devDependencies": {
+    "concurrently": "^7.6.0",
     "dotenv": "^16.0.3",
     "env-cmd": "^8.0.2",
     "nodemon": "^2.0.20"
@@ -46,6 +48,5 @@
   "engines": {
     "node": "16.17.0"
   },
-
   "buildpack": "https://github.com/heroku/heroku-buildpack-nodejs"
 }
