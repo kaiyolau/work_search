@@ -65,6 +65,12 @@ const AddUser = (props) => {
 
     return (
         <div className="submit-form">
+            {process.env.REACT_APP_SHOW_DEMO_HINT === 'true' && (
+                <div className="alert alert-info" role="note">
+                    Just want to look around? You don't need to sign up: use the demo account
+                    (alice.demo@example.com / Demo1234!) on the <a href="/sign_in">Sign In</a> page.
+                </div>
+            )}
             {errors.length > 0 && (
                 <div className="alert alert-danger" role="alert">
                     {errors.map((msg, i) => (
