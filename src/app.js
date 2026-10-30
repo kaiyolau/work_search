@@ -7,6 +7,7 @@ require('./db/mongoose')
 const mongoose = require('mongoose')
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const path = require("path");
 
 
 
@@ -27,7 +28,7 @@ const cookieParser = require('cookie-parser')
 app.use(cookieParser())
 
 var corsOptions = {
-    origin: "http://localhost:5500"
+    origin: process.env.CLIENT_ORIGIN || "http://localhost:5500"
     };
 
     app.use(cors(corsOptions));
@@ -43,9 +44,11 @@ var corsOptions = {
     app.use(bodyParser.urlencoded({ extended: true }));
 
   // simple route
-    app.get("/", (req, res) => {
-    res.json({ message: "Welcome to bezkoder application." });
-    });
+    if (process.env.NODE_ENV !== "production") {
+      app.get("/", (req, res) => {
+        res.json({ message: "Welcome to bezkoder application." });
+      });
+    }
 
 // require('./routers/user')(app);
 
@@ -58,6 +61,15 @@ app.use(bodyParser.json());
 app.use('/api',userRouter)
 app.use('/api',postRouter)
 app.use('/api',appRouter)
+
+// In production, serve the built React client from the same server.
+if (process.env.NODE_ENV === "production") {
+  const clientBuild = path.join(__dirname, "..", "client", "build")
+  app.use(express.static(clientBuild))
+  app.get(/^(?!\/api).*/, (req, res) => {
+    res.sendFile(path.join(clientBuild, "index.html"))
+  })
+}
 
 
 

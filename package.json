@@ -10,6 +10,8 @@
     "install-client": "cd client && npm install",
     "heroku-postbuild": "npm run install-client && npm run build",
     "start": "env-cmd ./config/dev.env node index.js",
+    "start:prod": "node index.js",
+    "build:all": "npm install && npm run install-client && npm run build",
     "start:client": "npm run heroku-postbuild && serve -s client/build -l 5500",
     "dev": "env-cmd ./config/dev.env  nodemon index.js"
   },
@@ -48,7 +50,7 @@
     "nodemon": "^2.0.20"
   },
   "engines": {
-    "node": "18.14.0"
+    "node": "18.x"
   },
   "buildpack": "https://github.com/heroku/heroku-buildpack-nodejs"
 }
